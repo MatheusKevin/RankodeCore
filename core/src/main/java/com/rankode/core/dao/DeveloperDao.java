@@ -19,34 +19,34 @@ import java.util.List;
  */
 public class DeveloperDao extends PatternDao<Developer>{
     
-private final Connect CONNECTION;
+private final Connect connection;
 
-private StringBuilder insertSQL = new StringBuilder()
+private final StringBuilder insertSQL = new StringBuilder()
             .append("INSERT INTO DEVELOPERS ")
             .append("(LOGIN, FIRST_NAME, LAST_NAME, PASSWORD, EMAIL, PROFILE_PICTURE) ")
             .append("VALUES ")
             .append("(?,?,?,?,?,?)");
     
-    private StringBuilder updateSQL = new StringBuilder()
+    private final StringBuilder updateSQL = new StringBuilder()
             .append("UPDATE DEVELOPERS ")
             .append("SET LOGIN=?, FIRST_NAME=?, LAST_NAME=?, PASSWORD=?, EMAIL=?, PROFILE_PICTURE=? ")
             .append("WHERE LOGIN=?");
     
-    private StringBuilder deleteSQL = new StringBuilder()
+    private final StringBuilder deleteSQL = new StringBuilder()
             .append("DELETE FROM DEVELOPERS ")
             .append("WHERE LOGIN=?");
     
-    private StringBuilder selectIdSQL =  new StringBuilder()
+    private final StringBuilder selectIdSQL =  new StringBuilder()
             .append("SELECT * ")
             .append("FROM DEVELOPERS ")
             .append("WHERE LOGIN = ? ");
 	
-    private StringBuilder selectAllSQL =  new StringBuilder()
+    private final StringBuilder selectAllSQL =  new StringBuilder()
             .append("SELECT * ")
             .append("FROM DEVELOPERS ");
     
     public DeveloperDao(){
-        CONNECTION = new Connect();
+        connection = new Connect();
     }
     
     @Override
@@ -54,7 +54,7 @@ private StringBuilder insertSQL = new StringBuilder()
         int cont = 1;
         PreparedStatement ps;
         try {
-            ps = Connect.getConnection().prepareStatement(insertSQL.toString());
+            ps = connection.getConnection().prepareStatement(insertSQL.toString());
             ps.setString(cont++, object.getLogin());
             ps.setString(cont++, object.getFirstName());
             ps.setString(cont++, object.getLastName());
@@ -62,7 +62,7 @@ private StringBuilder insertSQL = new StringBuilder()
             ps.setString(cont++, object.getEmail());
             ps.setString(cont++, object.getProfilePicture());
             
-            CONNECTION.executeUpdate(ps);
+            connection.executeUpdate(ps);
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -73,7 +73,7 @@ private StringBuilder insertSQL = new StringBuilder()
         int cont = 1;
         PreparedStatement ps;
         try {
-            ps = CONNECTION.getConnection().prepareStatement(updateSQL.toString());
+            ps = connection.getConnection().prepareStatement(updateSQL.toString());
             ps.setString(cont++, object.getLogin());
             ps.setString(cont++, object.getFirstName());
             ps.setString(cont++, object.getLastName());
@@ -81,7 +81,7 @@ private StringBuilder insertSQL = new StringBuilder()
             ps.setString(cont++, object.getEmail());
             ps.setString(cont++, object.getProfilePicture());
             
-            CONNECTION.executeUpdate(ps);
+            connection.executeUpdate(ps);
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -92,10 +92,10 @@ private StringBuilder insertSQL = new StringBuilder()
         int cont = 1;
         PreparedStatement ps;
         try {
-            ps = CONNECTION.getConnection().prepareStatement(deleteSQL.toString());
+            ps = connection.getConnection().prepareStatement(deleteSQL.toString());
             ps.setString(cont++, object.getLogin());
 
-            CONNECTION.executeUpdate(ps);
+            connection.executeUpdate(ps);
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -108,9 +108,9 @@ private StringBuilder insertSQL = new StringBuilder()
         PreparedStatement ps;
         ResultSet rs;
         try {
-            ps = CONNECTION.getConnection().prepareStatement(selectIdSQL.toString());
+            ps = connection.getConnection().prepareStatement(selectIdSQL.toString());
             ps.setString(cont++, id);
-            rs = CONNECTION.executeQuery(ps);
+            rs = connection.executeQuery(ps);
             if(rs.next()){
                     concurso = populateObject(rs);
             }
@@ -180,8 +180,8 @@ private StringBuilder insertSQL = new StringBuilder()
         PreparedStatement ps;
         ResultSet rs;
         try {
-            ps = CONNECTION.getConnection().prepareStatement(prepareStringSQLForFilter(filter));
-            rs = CONNECTION.executeQuery(prepareStatementForFilter(filter, ps));
+            ps = connection.getConnection().prepareStatement(prepareStringSQLForFilter(filter));
+            rs = connection.executeQuery(prepareStatementForFilter(filter, ps));
             while(rs.next()){
                     concursos.add(populateObject(rs));
             }
@@ -197,8 +197,8 @@ private StringBuilder insertSQL = new StringBuilder()
         PreparedStatement ps;
         ResultSet rs;
         try {
-            ps = CONNECTION.getConnection().prepareStatement(selectAllSQL.toString());
-            rs = CONNECTION.executeQuery(ps);
+            ps = connection.getConnection().prepareStatement(selectAllSQL.toString());
+            rs = connection.executeQuery(ps);
             while(rs.next()){
                     concursos.add(populateObject(rs));
             }

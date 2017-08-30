@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 public class Connect {
     
-    private static Connection conn;
+    private Connection conn;
     
     private final String DB = "rankode";
     private final String CLASS = "com.mysql.jdbc.Driver";
@@ -30,7 +30,7 @@ public class Connect {
         open();
     }
 
-    public synchronized static Connection getConnection(){
+    public synchronized Connection getConnection(){
         return conn;
     }
     

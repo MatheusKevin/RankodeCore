@@ -51,14 +51,13 @@ public class DeveloperRest {
 			developerBc.insert(developer);
 			return Response.ok(gson.toJson("Desenvolvedor cadastrado!")).build();
 		}catch(Exception e){
-			e.printStackTrace();
 			return Response.status(500).entity(gson.toJson("Erro ao acessar servidor")).build();
 		}
 		
 	}
         
         @GET
-	@Path("/findById/{id}") // http://localhost:8080/service/api/developer/insert
+	@Path("/findById/{id}") // http://localhost:8080/service/api/developer/findById
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("id") String id) {
 		try{
@@ -69,8 +68,7 @@ public class DeveloperRest {
                         
 			return Response.ok(gson.toJson("Não há esse desenvolvedor cadastrado!")).build();
 		}catch(Exception e){
-			e.printStackTrace();
-			return Response.status(500).entity(gson.toJson("Erro ao acessar servidor")).build();
+			return Response.status(500).entity(gson.toJson("Erro ao acessar servidor" + e)).build();
 		}
 		
 	}
