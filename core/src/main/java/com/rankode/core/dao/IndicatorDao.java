@@ -1,7 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.rankode.core.dao;
 
 import com.rankode.core.dao.utils.Connect;
-import com.rankode.core.model.Developer;
+import com.rankode.core.model.Indicator;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,52 +15,50 @@ import java.util.List;
 
 /**
  *
- * @author Alexandre
+ * @author Matheus
  */
-public class DeveloperDao extends PatternDao<Developer>{
-    
-private final Connect connection;
+public class IndicatorDao extends PatternDao<Indicator>{
+    private final Connect connection;
 
-private final StringBuilder insertSQL = new StringBuilder()
-            .append("INSERT INTO DEVELOPERS ")
-            .append("(LOGIN, FIRST_NAME, LAST_NAME, PASSWORD, EMAIL, PROFILE_PICTURE) ")
+    private final StringBuilder insertSQL = new StringBuilder()
+            .append("INSERT INTO INDICATORS ")
+            .append("(PROJECTS_ID, METRICS_INITIALS, NAME, MAX, MIN) ")
             .append("VALUES ")
-            .append("(?,?,?,?,?,?)");
+            .append("(?,?,?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE DEVELOPERS ")
-            .append("SET LOGIN=?, FIRST_NAME=?, LAST_NAME=?, PASSWORD=?, EMAIL=?, PROFILE_PICTURE=? ")
-            .append("WHERE LOGIN=?");
+            .append("UPDATE INDICATORS ")
+            .append("PROJECTS_ID=?, METRICS_INITIALS=?, NAME=?, MAX=?, MIN=?")
+            .append("WHERE ID=?");
     
     private final StringBuilder deleteSQL = new StringBuilder()
-            .append("DELETE FROM DEVELOPERS ")
-            .append("WHERE LOGIN=?");
+            .append("DELETE FROM INDICATORS ")
+            .append("WHERE ID=? ");
     
     private final StringBuilder selectIdSQL =  new StringBuilder()
             .append("SELECT * ")
-            .append("FROM DEVELOPERS ")
-            .append("WHERE LOGIN = ? ");
+            .append("FROM INDICATORS ")
+            .append("WHERE ID=? ");
 	
     private final StringBuilder selectAllSQL =  new StringBuilder()
             .append("SELECT * ")
-            .append("FROM DEVELOPERS ");
+            .append("FROM INDICATORS ");
     
-    public DeveloperDao(){
+    public IndicatorDao(){
         connection = new Connect();
     }
     
     @Override
-    public void insert(Developer object) {
+    public void insert(Indicator object) {
         int cont = 1;
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(insertSQL.toString());
-            ps.setString(cont++, object.getLogin());
-            ps.setString(cont++, object.getFirstName());
-            ps.setString(cont++, object.getLastName());
-            ps.setString(cont++, object.getPassword());
-            ps.setString(cont++, object.getEmail());
-            ps.setString(cont++, object.getProfilePicture());
+            ps.setInt(cont++, object.getProjeto().getId());
+            ps.setString(cont++, object.getMetric().getInitials());
+            ps.setString(cont++, object.getName());
+            ps.setInt(cont++, object.getMax());
+            ps.setInt(cont++, object.getMin());
             
             connection.executeUpdate(ps);
         } catch (SQLException e) {
@@ -64,17 +67,18 @@ private final StringBuilder insertSQL = new StringBuilder()
     }
 
     @Override
-    public void update(Developer object) {  
+    public void update(Indicator object) {
         int cont = 1;
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(updateSQL.toString());
-            ps.setString(cont++, object.getLogin());
-            ps.setString(cont++, object.getFirstName());
-            ps.setString(cont++, object.getLastName());
-            ps.setString(cont++, object.getPassword());
-            ps.setString(cont++, object.getEmail());
-            ps.setString(cont++, object.getProfilePicture());
+            ps.setInt(cont++, object.getProjeto().getId());
+            ps.setString(cont++, object.getMetric().getInitials());
+            ps.setString(cont++, object.getName());
+            ps.setInt(cont++, object.getMax());
+            ps.setInt(cont++, object.getMin());
+            
+            ps.setInt(cont++, object.getId());
             
             connection.executeUpdate(ps);
         } catch (SQLException e) {
@@ -83,12 +87,12 @@ private final StringBuilder insertSQL = new StringBuilder()
     }
 
     @Override
-    public void delete(Developer object) { 
-        int cont = 1;
+    public void delete(Indicator object) {
+         int cont = 1;
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(deleteSQL.toString());
-            ps.setString(cont++, object.getLogin());
+            ps.setInt(cont++, object.getId());
 
             connection.executeUpdate(ps);
         } catch (SQLException e) {
@@ -96,17 +100,17 @@ private final StringBuilder insertSQL = new StringBuilder()
         }
     }
 
-    public Developer findById(String id) {
+    public Indicator findById(int id) {
         int cont = 1;
-        Developer obj = null;
+        Indicator obj = null;
         PreparedStatement ps;
         ResultSet rs;
         try {
             ps = connection.getConnection().prepareStatement(selectIdSQL.toString());
-            ps.setString(cont++, id);
+            ps.setInt(cont++, id);
             rs = connection.executeQuery(ps);
             if(rs.next()){
-                    obj = populateObject(rs);
+                obj = populateObject(rs);
             }
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
@@ -114,63 +118,73 @@ private final StringBuilder insertSQL = new StringBuilder()
         return obj;
     }
     
-    private String prepareStringSQLForFilter(Developer filter){
+     private String prepareStringSQLForFilter(Indicator filter){
         StringBuilder sb = new StringBuilder(selectAllSQL.toString());
         sb.append(" WHERE ");
 
         boolean and = false;
 
-        if(filter.getLogin() != null){
+        if(filter.getProjeto().getId()!= null){
             if(!and){
                     and = true;
             }else{
                     sb.append(" AND ");
             }
-            sb.append(" LOGIN = ? ");
+            sb.append(" PROJECTS_ID = ? ");
         }
-        if(filter.getFirstName()!= null){
+        if(filter.getMetric().getInitials()!= null){
             if(!and){
                     and = true;
             }else{
                     sb.append(" AND ");
             }
-            sb.append(" FIRST_NAME = ? ");
+            sb.append(" METRICS_INITIALS = ? ");
         }
-        if(filter.getLastName()!= null){
+        if(filter.getName()!= null){
             if(!and){
                     and = true;
             }else{
                     sb.append(" AND ");
             }
-            sb.append(" LAST_NAME = ? ");
+            sb.append(" NAME = ? ");
         }
-        if(filter.getEmail()!= null){
+        if(filter.getMax()!= null){
             if(!and){
                     and = true;
             }else{
                     sb.append(" AND ");
             }
-            sb.append(" EMAIL = ? ");
+            sb.append(" MAX = ? ");
+        }
+        if(filter.getMin()!= null){
+            if(!and){
+                    and = true;
+            }else{
+                    sb.append(" AND ");
+            }
+            sb.append(" MIN = ? ");
         }
         return sb.toString();
     }
-    
-    private PreparedStatement prepareStatementForFilter(Developer filter, PreparedStatement ps) throws SQLException{
+     
+    private PreparedStatement prepareStatementForFilter(Indicator filter, PreparedStatement ps) throws SQLException{
         int cont = 1;
-        if(filter.getLogin() != null)
-            ps.setString(cont++, filter.getLogin());
-        if(filter.getFirstName()!= null)
-            ps.setString(cont++, filter.getFirstName());
-        if(filter.getLastName()!= null)
-            ps.setString(cont++, filter.getLastName());
-        if(filter.getEmail()!= null)
-            ps.setString(cont++, filter.getEmail());
-        
+        if(filter.getProjeto().getId() != null)
+            ps.setInt(cont++, filter.getProjeto().getId());
+        if(filter.getMetric().getInitials()!= null)
+            ps.setString(cont++, filter.getMetric().getInitials());
+        if(filter.getName()!= null)
+            ps.setString(cont++, filter.getName());
+        if(filter.getMax()!= null)
+            ps.setInt(cont++, filter.getMax());
+        if(filter.getMin()!= null)
+            ps.setInt(cont++, filter.getMin());
         return ps;
     }
 
-    public List<Developer> findByFilter(Developer filter) {
-        List<Developer> list = new ArrayList<Developer>();
+    @Override
+    public List<Indicator> findByFilter(Indicator filter) {
+        List<Indicator> list = new ArrayList<>();
         PreparedStatement ps;
         ResultSet rs;
         try {
@@ -186,8 +200,8 @@ private final StringBuilder insertSQL = new StringBuilder()
     }
 
     @Override
-    public List<Developer> findAll() {
-        List<Developer> list = new ArrayList<Developer>();
+    public List<Indicator> findAll() {
+        List<Indicator> list = new ArrayList<>();
         PreparedStatement ps;
         ResultSet rs;
         try {
@@ -203,16 +217,15 @@ private final StringBuilder insertSQL = new StringBuilder()
     }
 
     @Override
-    public Developer populateObject(ResultSet rs) throws SQLException {
-        Developer obj = new Developer();
-        obj.setLogin(rs.getString("LOGIN"));
-        obj.setFirstName(rs.getString("FIRST_NAME"));
-        obj.setLastName(rs.getString("LAST_NAME"));
-        obj.setPassword(rs.getString("PASSWORD"));
-        obj.setEmail(rs.getString("EMAIL"));
-        obj.setProfilePicture(rs.getString("PROFILE_PICTURE"));
+    public Indicator populateObject(ResultSet rs) throws SQLException {
+        Indicator obj = new Indicator();
+        obj.setId(rs.getInt("ID"));
+        obj.setName(rs.getString("NAME"));
+        obj.setMax(rs.getInt("MAX"));
+        obj.setMin(rs.getInt("MIN"));
         
         return obj;
-    }   
+    }
+    
     
 }

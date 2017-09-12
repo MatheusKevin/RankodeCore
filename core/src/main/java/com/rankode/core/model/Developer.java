@@ -14,7 +14,10 @@ import java.util.List;
  */
 public class Developer {
     
+    private List<Project> projectsAsOwner;
+    private List<Collaborator> projectsAsCollaborator;
     private List<RepositoryAccount> accounts;
+    private List<Notification> notifications;
     
     private String login;
     private String email;
@@ -31,6 +34,54 @@ public class Developer {
     
     public Developer() {
         accounts = new ArrayList<RepositoryAccount>();
+    }
+    
+    public void addProjectAsOwner(Project obj){
+        this.projectsAsOwner.add(obj);
+    }
+    
+    public void addProjectAsCollaborator(Collaborator obj){
+        this.projectsAsCollaborator.add(obj);
+    }
+    
+    public void addRepositoryAccount(RepositoryAccount obj){
+        this.accounts.add(obj);
+    }
+    
+    public void addNotification(Notification obj){
+        this.notifications.add(obj);
+    }
+
+    public List<Project> getProjectsAsOwner() {
+        return projectsAsOwner;
+    }
+
+    public void setProjectsAsOwner(List<Project> projectsAsOwner) {
+        this.projectsAsOwner = projectsAsOwner;
+    }
+
+    public List<Collaborator> getProjectsAsCollaborator() {
+        return projectsAsCollaborator;
+    }
+
+    public void setProjectsAsCollaborator(List<Collaborator> projectsAsCollaborator) {
+        this.projectsAsCollaborator = projectsAsCollaborator;
+    }
+
+    public List<RepositoryAccount> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<RepositoryAccount> accounts) {
+        this.accounts = accounts;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     public String getLogin() {
@@ -88,7 +139,6 @@ public class Developer {
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
-    
     
     
 }

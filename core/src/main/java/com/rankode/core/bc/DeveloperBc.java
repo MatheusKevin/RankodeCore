@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class DeveloperBc extends PatternBC<Developer>{
 
-    DeveloperDao developerDao;
+    private DeveloperDao developerDao;
 
     public DeveloperBc() {
         developerDao = new DeveloperDao();

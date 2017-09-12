@@ -27,10 +27,9 @@ public class Connect {
 
     
     public Connect(){   
-        open();
     }
 
-    public synchronized Connection getConnection(){
+    public Connection getConnection(){
         return conn;
     }
     
@@ -46,22 +45,36 @@ public class Connect {
         }
     }
     
+    private void close() {
+        try{
+            conn.close();
+        }catch(SQLException e){
+            throw new RuntimeException("Erro ao fechar a conexão - " + e.toString());
+        }
+    }
+    
     public synchronized void executeUpdate(PreparedStatement ps){
         try{
+            open();
             ps.executeUpdate();
             confirm();
         }catch(SQLException e){
             abort();
             throw new RuntimeException("Erro de ao realizar atualizacao - " + e.toString());
+        }finally{
+            close();
         }
         
     }
     public synchronized ResultSet executeQuery(PreparedStatement ps){
         ResultSet rs = null;
         try{
+            open();
             rs = ps.executeQuery();
         }catch(SQLException e){
             throw new RuntimeException("Erro de ao realizar busca - " + e.toString());
+        }finally{
+            close();
         }
         return rs;
     }

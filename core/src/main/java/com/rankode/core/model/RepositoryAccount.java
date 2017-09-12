@@ -19,6 +19,11 @@ public class RepositoryAccount {
         this.developer = developer;
     }
 
+    public RepositoryAccount() {
+    }
+    
+    
+
     public Developer getDeveloper() {
         return developer;
     }
