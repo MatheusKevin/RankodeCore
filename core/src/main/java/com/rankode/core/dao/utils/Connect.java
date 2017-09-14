@@ -30,6 +30,7 @@ public class Connect {
     }
 
     public Connection getConnection(){
+        open();
         return conn;
     }
     
@@ -55,7 +56,6 @@ public class Connect {
     
     public synchronized void executeUpdate(PreparedStatement ps){
         try{
-            open();
             ps.executeUpdate();
             confirm();
         }catch(SQLException e){
@@ -69,7 +69,6 @@ public class Connect {
     public synchronized ResultSet executeQuery(PreparedStatement ps){
         ResultSet rs = null;
         try{
-            open();
             rs = ps.executeQuery();
         }catch(SQLException e){
             throw new RuntimeException("Erro de ao realizar busca - " + e.toString());
