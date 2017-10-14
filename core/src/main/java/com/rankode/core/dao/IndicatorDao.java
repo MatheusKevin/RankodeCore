@@ -61,6 +61,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
             ps.setInt(cont++, object.getMin());
             
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -81,6 +82,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
             ps.setInt(cont++, object.getId());
             
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -95,6 +97,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
             ps.setInt(cont++, object.getId());
 
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -112,6 +115,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
             if(rs.next()){
                 obj = populateObject(rs);
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -193,6 +197,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -210,6 +215,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }

@@ -59,6 +59,7 @@ public class ProjectDao extends PatternDao<Project>{
             ps.setString(cont++, object.getName());
             
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -76,6 +77,7 @@ public class ProjectDao extends PatternDao<Project>{
             ps.setInt(cont++, object.getId());
             
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -90,6 +92,7 @@ public class ProjectDao extends PatternDao<Project>{
             ps.setInt(cont++, object.getId());
 
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -107,6 +110,7 @@ public class ProjectDao extends PatternDao<Project>{
             if(rs.next()){
                 obj = populateObject(rs);
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -161,6 +165,7 @@ public class ProjectDao extends PatternDao<Project>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -178,6 +183,7 @@ public class ProjectDao extends PatternDao<Project>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }

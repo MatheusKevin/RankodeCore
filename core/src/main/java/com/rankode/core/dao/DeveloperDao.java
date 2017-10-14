@@ -58,6 +58,7 @@ private final StringBuilder insertSQL = new StringBuilder()
             ps.setString(cont++, object.getProfilePicture());
             
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -77,6 +78,7 @@ private final StringBuilder insertSQL = new StringBuilder()
             ps.setString(cont++, object.getProfilePicture());
             
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -91,6 +93,7 @@ private final StringBuilder insertSQL = new StringBuilder()
             ps.setString(cont++, object.getLogin());
 
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -108,6 +111,7 @@ private final StringBuilder insertSQL = new StringBuilder()
             if(rs.next()){
                     obj = populateObject(rs);
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -179,6 +183,7 @@ private final StringBuilder insertSQL = new StringBuilder()
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -196,6 +201,7 @@ private final StringBuilder insertSQL = new StringBuilder()
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }

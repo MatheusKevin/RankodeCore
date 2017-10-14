@@ -107,6 +107,7 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
             if(rs.next()){
                 obj = populateObject(rs);
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -160,6 +161,7 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -177,6 +179,7 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }

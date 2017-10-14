@@ -62,6 +62,7 @@ public class CollaboratorDao extends PatternDao<Collaborator>{
             ps.setDate(cont++, object.getAdmissionDate());
 
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -81,6 +82,7 @@ public class CollaboratorDao extends PatternDao<Collaborator>{
             ps.setDate(cont++, object.getAdmissionDate());
 
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -97,6 +99,7 @@ public class CollaboratorDao extends PatternDao<Collaborator>{
             ps.setDate(cont++, object.getAdmissionDate());
 
             connection.executeUpdate(ps);
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
         }
@@ -116,6 +119,7 @@ public class CollaboratorDao extends PatternDao<Collaborator>{
             if(rs.next()){
                 obj = populateObject(rs);
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -206,6 +210,7 @@ public class CollaboratorDao extends PatternDao<Collaborator>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }
@@ -223,6 +228,7 @@ public class CollaboratorDao extends PatternDao<Collaborator>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
+            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
         }

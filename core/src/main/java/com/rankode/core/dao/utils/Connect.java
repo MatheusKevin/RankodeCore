@@ -46,7 +46,7 @@ public class Connect {
         }
     }
     
-    private void close() {
+    public void close() {
         try{
             conn.close();
         }catch(SQLException e){
@@ -61,8 +61,6 @@ public class Connect {
         }catch(SQLException e){
             abort();
             throw new RuntimeException("Erro de ao realizar atualizacao - " + e.toString());
-        }finally{
-            close();
         }
         
     }
@@ -72,8 +70,6 @@ public class Connect {
             rs = ps.executeQuery();
         }catch(SQLException e){
             throw new RuntimeException("Erro de ao realizar busca - " + e.toString());
-        }finally{
-            close();
         }
         return rs;
     }
