@@ -27,7 +27,7 @@ public class Commit {
     }
 
     public Commit() {
-        this.results = new ArrayList<>();
+       this.results = new ArrayList<>();
     }
 
     public Collaborator getCollaborator() {

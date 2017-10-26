@@ -23,6 +23,10 @@ public class MetricResult {
         this.metric = metric;
     }
 
+    public MetricResult() {
+        
+    }
+    
     public Commit getCommit() {
         return commit;
     }

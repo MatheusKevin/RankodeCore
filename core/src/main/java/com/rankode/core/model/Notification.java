@@ -25,6 +25,10 @@ public class Notification {
         this.developer = developer;
     }
 
+    public Notification() {
+    
+    }
+    
     public Developer getDeveloper() {
         return developer;
     }

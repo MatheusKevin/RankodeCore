@@ -22,8 +22,6 @@ public class RepositoryAccount {
     public RepositoryAccount() {
     }
     
-    
-
     public Developer getDeveloper() {
         return developer;
     }

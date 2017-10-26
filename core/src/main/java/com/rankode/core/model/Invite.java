@@ -20,6 +20,10 @@ public class Invite extends Notification{
         this.project = project;
     }
 
+    public Invite(Developer developer) {
+        super(developer);
+    }
+
     public Project getProject() {
         return project;
     }

@@ -26,14 +26,14 @@ public class Developer {
     private String lastName;
     private Integer level;
     private String profilePicture;
-
+    
     public Developer(RepositoryAccount account) {
-        accounts = new ArrayList<RepositoryAccount>();
+        accounts = new ArrayList<>();
         accounts.add(account);
     }
     
     public Developer() {
-        accounts = new ArrayList<RepositoryAccount>();
+        accounts = new ArrayList<>();
     }
     
     public void addProjectAsOwner(Project obj){
