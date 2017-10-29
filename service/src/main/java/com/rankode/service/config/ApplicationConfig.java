@@ -11,11 +11,12 @@ import javax.ws.rs.core.Application;
 public class ApplicationConfig extends Application {
 
 	@Override
-	public Set<Class<?>> getClasses() {
+	public Set<Class<?>> getClasses() {        
+                
 		final Set<Class<?>> classes = new HashSet<Class<?>>();
-
-		classes.add(DeveloperRest.class);
-		
+		classes.add(CORSFilter.class);
+                
+                classes.add(DeveloperRest.class);
 		return classes;
 	}
 }
