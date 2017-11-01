@@ -44,13 +44,14 @@ public class DeveloperRest {
 	@POST
 	@Path("/insert") // http://localhost:8080/service/api/developer/insert
 	@Consumes(MediaType.APPLICATION_JSON)
+        @Produces(MediaType.APPLICATION_JSON)
 	public Response insert(Developer developer) {
 		try{
                         developerBc = new DeveloperBc();
 			developerBc.insert(developer);
 			return Response.ok(gson.toJson("Desenvolvedor cadastrado!")).build();
 		}catch(Exception e){
-			return Response.status(500).entity(gson.toJson("Erro ao acessar servidor")).build();
+			return Response.status(500).entity(gson.toJson("Erro: " + e.getMessage())).build();
 		}
 		
 	}
