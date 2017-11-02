@@ -61,5 +61,5 @@ public class Commit {
     public void setDate(Date date) {
         this.date = date;
     }
-    
+
 }

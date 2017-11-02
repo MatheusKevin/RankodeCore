@@ -5,6 +5,7 @@
  */
 package com.rankode.core.bc;
 
+import com.rankode.core.bc.utils.Validations;
 import com.rankode.core.dao.DeveloperDao;
 import com.rankode.core.model.Developer;
 import java.util.List;
@@ -16,7 +17,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class DeveloperBc extends PatternBC<Developer>{
 
-    private DeveloperDao developerDao;
+    private final DeveloperDao developerDao;
 
     public DeveloperBc() {
         developerDao = new DeveloperDao();
@@ -75,6 +76,9 @@ public class DeveloperBc extends PatternBC<Developer>{
         }
         if(StringUtils.isBlank(object.getEmail())){
             throw new RuntimeException("Email nulo");
+        }
+        if(Validations.validateEmail(object.getEmail())){
+            throw new RuntimeException("Email inválido");
         }
     }
 

@@ -6,7 +6,7 @@
 package com.rankode.core.dao;
 
 import com.rankode.core.dao.utils.Connect;
-import com.rankode.core.model.Metric;
+import com.rankode.core.model.Invite;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,52 +15,49 @@ import java.util.List;
 
 /**
  *
- * @author Matheus
+ * @author Matheus Pelegrini
  */
-public class MetricDao extends PatternDao<Metric>{
+public class InviteDao extends PatternDao<Invite>{
     
     private final Connect connection;
     
     private final StringBuilder insertSQL = new StringBuilder()
-            .append("INSERT INTO METRICS ")
-            .append("(INITIALS, GOUP_ID, TARGET_ID, NAME, DESCRIPTION, WEIGHT_XP) ")
+            .append("INSERT INTO INVITES ")
+            .append("(NOTIFICATION_ID, PROJECTS_ID, RESPONSE) ")
             .append("VALUES ")
-            .append("(?,?,?,?,?,?)");
+            .append("(?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE METRICS ")
-            .append("GOUP_ID=?, TARGET_ID=?, NAME=?, DESCRIPTION=?, WEIGHT_XP=? ")
-            .append("WHERE INITIALS=?");
+            .append("UPDATE INVITES ")
+            .append("PROJECTS_ID=?, RESPONSE=? ")
+            .append("WHERE NOTIFICATION_ID=?");
     
     private final StringBuilder deleteSQL = new StringBuilder()
-            .append("DELETE FROM METRICS ")
-            .append("WHERE INITIALS=?");
+            .append("DELETE FROM INVITES ")
+            .append("WHERE NOTIFICATION_ID=?");
     
     private final StringBuilder selectIdSQL =  new StringBuilder()
             .append("SELECT * ")
-            .append("FROM METRICS ")
-            .append("WHERE INITIALS = ? ");
+            .append("FROM INVITES ")
+            .append("WHERE NOTIFICATION_ID = ? ");
 	
     private final StringBuilder selectAllSQL =  new StringBuilder()
             .append("SELECT * ")
-            .append("FROM METRICS ");
+            .append("FROM INVITES ");
     
-    public MetricDao(){
+    public InviteDao(){
         connection = new Connect();
     }
 
     @Override
-    public void insert(Metric object) {
+    public void insert(Invite object) {
         int cont = 1;
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(insertSQL.toString());
-            ps.setString(cont++, object.getInitials());
-            ps.setInt(cont++, object.getGroup().getId());
-            ps.setInt(cont++, object.getTarget().getId());
-            ps.setString(cont++, object.getName());
-            ps.setString(cont++, object.getDescription());
-            ps.setInt(cont++, object.getWeightXP());
+            ps.setInt(cont++, object.getId());
+            ps.setInt(cont++, object.getProject().getId());
+            ps.setBoolean(cont++, object.isResponse());
             
             connection.executeUpdate(ps);
         }catch (SQLException e) {
@@ -71,18 +68,15 @@ public class MetricDao extends PatternDao<Metric>{
     }
 
     @Override
-    public void update(Metric object) {
+    public void update(Invite object) {
         int cont = 1;
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(updateSQL.toString());
-            ps.setInt(cont++, object.getGroup().getId());
-            ps.setInt(cont++, object.getTarget().getId());
-            ps.setString(cont++, object.getName());
-            ps.setString(cont++, object.getDescription());
-            ps.setInt(cont++, object.getWeightXP());
+            ps.setInt(cont++, object.getProject().getId());
+            ps.setBoolean(cont++, object.isResponse());
             
-            ps.setString(cont++, object.getInitials());
+            ps.setInt(cont++, object.getId());
             
             connection.executeUpdate(ps);
         }catch (SQLException e) {
@@ -93,13 +87,12 @@ public class MetricDao extends PatternDao<Metric>{
     }
 
     @Override
-    public void delete(Metric object) {
+    public void delete(Invite object) {
         int cont = 1;
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(deleteSQL.toString());
-            
-            ps.setString(cont++, object.getInitials());
+            ps.setInt(cont++, object.getId());
             
             connection.executeUpdate(ps);
         }catch (SQLException e) {
@@ -109,83 +102,55 @@ public class MetricDao extends PatternDao<Metric>{
         }
     }
     
-    public Metric findById(String initials) {
+    public Invite findById(int id) {
         int cont = 1;
-        Metric obj = null;
+        Invite obj = null;
         PreparedStatement ps;
         ResultSet rs;
         try {
             ps = connection.getConnection().prepareStatement(selectIdSQL.toString());
-            ps.setString(cont++, initials);
+            ps.setInt(cont++, id);
             rs = connection.executeQuery(ps);
             if(rs.next()){
                 obj = populateObject(rs);
             }
-            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
+        }finally{
+            connection.close();
         }
         return obj;
     }
     
-    private String prepareStringSQLForFilter(Metric filter){
+    private String prepareStringSQLForFilter(Invite filter){
         StringBuilder sb = new StringBuilder(selectAllSQL.toString());
         sb.append(" WHERE ");
 
         boolean and = false;
 
-        if(filter.getGroup().getId()!= null){
+        if(filter.getProject().getId()!= null){
             if(!and){
                     and = true;
             }else{
                     sb.append(" AND ");
             }
-            sb.append(" GOUP_ID = ? ");
+            sb.append(" PROJECTS_ID = ? ");
         }
-        if(filter.getTarget().getId()!= null){
-            if(!and){
-                    and = true;
-            }else{
-                    sb.append(" AND ");
-            }
-            sb.append(" TARGET_ID = ? ");
-        }
-        if(filter.getName()!= null){
-            if(!and){
-                    and = true;
-            }else{
-                    sb.append(" AND ");
-            }
-            sb.append(" NAME LIKE '%?%' ");
-        }
-        if(filter.getDescription()!= null){
-            if(!and){
-                    and = true;
-            }else{
-                    sb.append(" AND ");
-            }
-            sb.append(" DESCRIPTION LIKE '%?%' ");
-        }
+        
         return sb.toString();
     }
     
-    private PreparedStatement prepareStatementForFilter(Metric filter, PreparedStatement ps) throws SQLException{
+    private PreparedStatement prepareStatementForFilter(Invite filter, PreparedStatement ps) throws SQLException{
         int cont = 1;
-        if(filter.getGroup().getId() != null)
-            ps.setInt(cont++, filter.getGroup().getId());
-        if(filter.getTarget().getId() != null)
-            ps.setInt(cont++, filter.getTarget().getId());
-        if(filter.getName() != null)
-            ps.setString(cont++, filter.getName());
-        if(filter.getDescription() != null)
-            ps.setString(cont++, filter.getDescription());
+        if(filter.getProject().getId() != null)
+            ps.setInt(cont++, filter.getProject().getId());
         
         return ps;
     }
-    
+
     @Override
-    public List<Metric> findByFilter(Metric filter) {
-        List<Metric> list = new ArrayList<>();
+    public List<Invite> findByFilter(Invite filter) {
+        List<Invite> list = new ArrayList<>();
         PreparedStatement ps;
         ResultSet rs;
         try {
@@ -194,16 +159,17 @@ public class MetricDao extends PatternDao<Metric>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
-            connection.close();
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
+        }finally{
+            connection.close();
         }
         return list;
     }
 
     @Override
-    public List<Metric> findAll() {
-        List<Metric> list = new ArrayList<>();
+    public List<Invite> findAll() {
+        List<Invite> list = new ArrayList<>();
         PreparedStatement ps;
         ResultSet rs;
         try {
@@ -212,20 +178,20 @@ public class MetricDao extends PatternDao<Metric>{
             while(rs.next()){
                     list.add(populateObject(rs));
             }
-            connection.close();
+
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
+        }finally{
+            connection.close();
         }
         return list;
     }
 
     @Override
-    public Metric populateObject(ResultSet rs) throws SQLException {
-        Metric obj = new Metric();
-        obj.setInitials(rs.getString("INITIALS"));
-        obj.setName(rs.getString("NAME"));
-        obj.setDescription(rs.getString("DESCRIPTION"));
-        obj.setWeightXP(rs.getInt("WEIGHT_XP"));
+    public Invite populateObject(ResultSet rs) throws SQLException {
+        Invite obj = new Invite();
+        obj.setId(rs.getInt("NOTIFICATION_ID"));
+        obj.setResponse(rs.getBoolean("RESPONSE"));
         
         return obj;
     }
