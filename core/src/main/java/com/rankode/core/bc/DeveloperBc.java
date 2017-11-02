@@ -77,7 +77,7 @@ public class DeveloperBc extends PatternBc<Developer>{
         if(StringUtils.isBlank(object.getEmail())){
             throw new RuntimeException("Email em branco");
         }
-        if(Validations.validateEmail(object.getEmail())){
+        if(!Validations.validateEmail(object.getEmail())){
             throw new RuntimeException("Email inválido");
         }
     }
