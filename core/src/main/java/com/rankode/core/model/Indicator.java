@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Indicator {
     
-    private Project projeto;
+    private Project project;
     private Metric metric;
     private List<Hint> hints;
     
@@ -23,8 +23,8 @@ public class Indicator {
     private Integer max;
     private Integer min;
 
-    public Indicator(Project projeto, Metric metric) {
-        this.projeto = projeto;
+    public Indicator(Project project, Metric metric) {
+        this.project = project;
         this.metric = metric;
         this.hints = new ArrayList<>();
     }
@@ -37,12 +37,12 @@ public class Indicator {
         this.hints.add(obj);
     }
 
-    public Project getProjeto() {
-        return projeto;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjeto(Project projeto) {
-        this.projeto = projeto;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Metric getMetric() {

@@ -22,13 +22,13 @@ public class IndicatorDao extends PatternDao<Indicator>{
 
     private final StringBuilder insertSQL = new StringBuilder()
             .append("INSERT INTO INDICATORS ")
-            .append("(PROJECTS_ID, METRICS_INITIALS, NAME, MAX, MIN) ")
+            .append("(NAME, MAX, MIN, METRICS_INITIALS, PROJECTS_ID) ")
             .append("VALUES ")
             .append("(?,?,?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
             .append("UPDATE INDICATORS ")
-            .append("PROJECTS_ID=?, METRICS_INITIALS=?, NAME=?, MAX=?, MIN=?")
+            .append("NAME=?, MAX=?, MIN=?, METRICS_INITIALS=?, PROJECTS_ID=?")
             .append("WHERE ID=?");
     
     private final StringBuilder deleteSQL = new StringBuilder()
@@ -54,7 +54,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(insertSQL.toString());
-            ps.setInt(cont++, object.getProjeto().getId());
+            ps.setInt(cont++, object.getProject().getId());
             ps.setString(cont++, object.getMetric().getInitials());
             ps.setString(cont++, object.getName());
             ps.setInt(cont++, object.getMax());
@@ -73,7 +73,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(updateSQL.toString());
-            ps.setInt(cont++, object.getProjeto().getId());
+            ps.setInt(cont++, object.getProject().getId());
             ps.setString(cont++, object.getMetric().getInitials());
             ps.setString(cont++, object.getName());
             ps.setInt(cont++, object.getMax());
@@ -128,22 +128,6 @@ public class IndicatorDao extends PatternDao<Indicator>{
 
         boolean and = false;
 
-        if(filter.getProjeto().getId()!= null){
-            if(!and){
-                    and = true;
-            }else{
-                    sb.append(" AND ");
-            }
-            sb.append(" PROJECTS_ID = ? ");
-        }
-        if(filter.getMetric().getInitials()!= null){
-            if(!and){
-                    and = true;
-            }else{
-                    sb.append(" AND ");
-            }
-            sb.append(" METRICS_INITIALS = ? ");
-        }
         if(filter.getName()!= null){
             if(!and){
                     and = true;
@@ -168,21 +152,38 @@ public class IndicatorDao extends PatternDao<Indicator>{
             }
             sb.append(" MIN = ? ");
         }
+        if(filter.getMetric().getInitials()!= null){
+            if(!and){
+                    and = true;
+            }else{
+                    sb.append(" AND ");
+            }
+            sb.append(" METRICS_INITIALS = ? ");
+        }
+        if(filter.getProject().getId()!= null){
+            if(!and){
+                    and = true;
+            }else{
+                    sb.append(" AND ");
+            }
+            sb.append(" PROJECTS_ID = ? ");
+        }
         return sb.toString();
     }
      
     private PreparedStatement prepareStatementForFilter(Indicator filter, PreparedStatement ps) throws SQLException{
         int cont = 1;
-        if(filter.getProjeto().getId() != null)
-            ps.setInt(cont++, filter.getProjeto().getId());
-        if(filter.getMetric().getInitials()!= null)
-            ps.setString(cont++, filter.getMetric().getInitials());
         if(filter.getName()!= null)
             ps.setString(cont++, filter.getName());
         if(filter.getMax()!= null)
             ps.setInt(cont++, filter.getMax());
         if(filter.getMin()!= null)
             ps.setInt(cont++, filter.getMin());
+        if(filter.getMetric().getInitials()!= null)
+            ps.setString(cont++, filter.getMetric().getInitials());
+        if(filter.getProject().getId() != null)
+            ps.setInt(cont++, filter.getProject().getId());
+
         return ps;
     }
 

@@ -95,7 +95,7 @@ public class NotificationDao extends PatternDao<Notification>{
         int cont = 1;
         PreparedStatement ps;
         try {
-            ps = connection.getConnection().prepareStatement(updateSQL.toString());
+            ps = connection.getConnection().prepareStatement(deleteSQL.toString());
             
             ps.setInt(cont++, object.getId());
             connection.executeUpdate(ps);

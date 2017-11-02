@@ -164,14 +164,6 @@ public class CollaboratorDao extends PatternDao<Collaborator>{
             }
             sb.append(" ADMISSION_DATE = ? ");    
         }
-        if(filter.getAdmissionDate()!= null){
-            if(!and){
-                    and = true;
-            }else{
-                    sb.append(" AND ");
-            }
-            sb.append(" ADMISSION_DATE = ? ");    
-        }
         if(filter.getDemissionDate()!= null){
             if(!and){
                     and = true;

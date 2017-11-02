@@ -23,13 +23,13 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
 
     private final StringBuilder insertSQL = new StringBuilder()
             .append("INSERT INTO REPOSITORY_ACCOUNTS ")
-            .append("(LOGIN, NAME, DEVELOPERS_LOGIN) ")
+            .append("(LOGIN_REPOSITORY, REPOSITORY, DEVELOPERS_LOGIN) ")
             .append("VALUES ")
             .append("(?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
             .append("UPDATE REPOSITORY_ACCOUNTS ")
-            .append("NAME=?, DEVELOPERS_LOGIN=? ")
+            .append("LOGIN_REPOSITORY=?, REPOSITORY=? ")
             .append("WHERE LOGIN=?");
     
     private final StringBuilder deleteSQL = new StringBuilder()
@@ -126,7 +126,7 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
             }else{
                     sb.append(" AND ");
             }
-            sb.append(" NAME = ? ");
+            sb.append(" REPOSITORY = ? ");
         }
         if(filter.getLoginRepository()!= null){
             if(!and){
@@ -189,8 +189,8 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
     @Override
     public RepositoryAccount populateObject(ResultSet rs) throws SQLException {
         RepositoryAccount obj = new RepositoryAccount();
-        obj.setRepository(rs.getString("NAME"));
-        obj.setLoginRepository(rs.getString("DEVELOPERS_LOGIN"));
+        obj.setLoginRepository(rs.getString("LOGIN_REPOSITORY"));
+        obj.setRepository(rs.getString("REPOSITORY"));
         
         return obj;
     }

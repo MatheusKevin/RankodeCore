@@ -7,13 +7,15 @@ package com.rankode.core.bc;
 
 import com.rankode.core.dao.CollaboratorDao;
 import com.rankode.core.model.Collaborator;
+import java.sql.Date;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
  * @author Matheus
  */
-public class CollaboratorBc extends PatternBC<Collaborator>{
+public class CollaboratorBc extends PatternBc<Collaborator>{
     
     private final CollaboratorDao collaboratorDao;
     
@@ -23,17 +25,19 @@ public class CollaboratorBc extends PatternBC<Collaborator>{
     
     @Override
     public void insert(Collaborator objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        validateObject(objeto);
+        collaboratorDao.insert(objeto);
     }
 
     @Override
     public void update(Collaborator objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        validateObject(objeto);
+        collaboratorDao.update(objeto);
     }
 
     @Override
     public void delete(Collaborator objeto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        collaboratorDao.delete(objeto);
     }
 
     @Override
@@ -41,29 +45,53 @@ public class CollaboratorBc extends PatternBC<Collaborator>{
         return collaboratorDao.findAll();
     }
 
-    @Override
-    public Collaborator findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public Collaborator findById(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Collaborator findById(String login, int idProject, Date admissionDate) {
+        return collaboratorDao.findById(login, idProject, admissionDate);
     }
 
     @Override
     public List<Collaborator> findByFilter(Collaborator filter) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!validateFilter(filter)){
+            throw new RuntimeException("É necessario preencher ao menos um campo de busca");
+        }
+        return collaboratorDao.findByFilter(filter);
     }
 
     @Override
     protected void validateObject(Collaborator object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(object == null){
+            throw new RuntimeException("Colaborador nulo");
+        }
+        if(object.getDeveloper() == null){
+            throw new RuntimeException("Desenvolvedor nulo");
+        }
+        if(object.getProject() == null){
+            throw new RuntimeException("Projeto nulo");
+        }
+        if(StringUtils.isBlank(object.getDeveloper().getLogin())){
+            throw new RuntimeException("Login do desenvolvedor em branco");
+        }
+        if(object.getProject().getId() == null){
+            throw new RuntimeException("Id do projeto em branco");
+        }
+        if(object.getAdmissionDate() == null){
+            throw new RuntimeException("Data de admissão em branco");
+        }
+        if(object.getDemissionDate() != null && object.getDemissionDate().before(object.getAdmissionDate())){
+            throw new RuntimeException("Data de demissão inválida");
+        }
     }
 
     @Override
     protected boolean validateFilter(Collaborator object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return object != null && (object.getDeveloper() == null ||
+                StringUtils.isBlank(object.getDeveloper().getLogin()) ||
+                object.getProject() == null ||
+                object.getProject().getId() == null ||
+                object.getXp() == null||
+                object.getAdmissionDate() == null||
+                object.getDemissionDate() == null);
     }
     
 }

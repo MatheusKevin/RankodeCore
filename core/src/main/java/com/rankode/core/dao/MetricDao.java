@@ -23,13 +23,13 @@ public class MetricDao extends PatternDao<Metric>{
     
     private final StringBuilder insertSQL = new StringBuilder()
             .append("INSERT INTO METRICS ")
-            .append("(INITIALS, GOUP_ID, TARGET_ID, NAME, DESCRIPTION, WEIGHT_XP) ")
+            .append("(INITIALS, GROUP_ID, TARGET_ID, NAME, DESCRIPTION, WEIGHT_XP) ")
             .append("VALUES ")
             .append("(?,?,?,?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
             .append("UPDATE METRICS ")
-            .append("GOUP_ID=?, TARGET_ID=?, NAME=?, DESCRIPTION=?, WEIGHT_XP=? ")
+            .append("GROUP_ID=?, TARGET_ID=?, NAME=?, DESCRIPTION=?, WEIGHT_XP=? ")
             .append("WHERE INITIALS=?");
     
     private final StringBuilder deleteSQL = new StringBuilder()
@@ -140,7 +140,7 @@ public class MetricDao extends PatternDao<Metric>{
             }else{
                     sb.append(" AND ");
             }
-            sb.append(" GOUP_ID = ? ");
+            sb.append(" GROUP_ID = ? ");
         }
         if(filter.getTarget().getId()!= null){
             if(!and){

@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Alexandre
  */
-public class DeveloperBc extends PatternBC<Developer>{
+public class DeveloperBc extends PatternBc<Developer>{
 
     private final DeveloperDao developerDao;
 
@@ -37,9 +37,7 @@ public class DeveloperBc extends PatternBC<Developer>{
 
     @Override
     public void delete(Developer objeto) {
-        if(developerDao.findById(objeto.getLogin())!=null){
-            developerDao.delete(objeto);
-        }
+        developerDao.delete(objeto);
     }
 
     @Override
@@ -47,9 +45,8 @@ public class DeveloperBc extends PatternBC<Developer>{
         return developerDao.findAll();
     }
 
-    @Override
-    public Developer findById(String id) {
-        return developerDao.findById(id);
+    public Developer findById(String login) {
+        return developerDao.findById(login);
     }
 
     @Override
@@ -62,20 +59,23 @@ public class DeveloperBc extends PatternBC<Developer>{
 
     @Override
     protected void validateObject(Developer object) {
+        if(object == null){
+            throw new RuntimeException("Desenvolvedor nulo");
+        }
         if(StringUtils.isBlank(object.getLogin())){
-            throw new RuntimeException("Login nulo");
+            throw new RuntimeException("Login em branco");
         }
         if(StringUtils.isBlank(object.getFirstName())){
-            throw new RuntimeException("Nome nulo");
+            throw new RuntimeException("Nome em branco");
         }
         if(StringUtils.isBlank(object.getLastName())){
-            throw new RuntimeException("Sobrenome nulo");
+            throw new RuntimeException("Sobrenome em branco");
         }
         if(StringUtils.isBlank(object.getPassword())){
-            throw new RuntimeException("Senha nula");
+            throw new RuntimeException("Senha em branco");
         }
         if(StringUtils.isBlank(object.getEmail())){
-            throw new RuntimeException("Email nulo");
+            throw new RuntimeException("Email em branco");
         }
         if(Validations.validateEmail(object.getEmail())){
             throw new RuntimeException("Email inválido");
@@ -84,17 +84,12 @@ public class DeveloperBc extends PatternBC<Developer>{
 
     @Override
     protected boolean validateFilter(Developer object) {
-            return object != null && (StringUtils.isNotBlank(object.getLogin()) ||
+        return object != null && (StringUtils.isNotBlank(object.getLogin()) ||
             StringUtils.isNotBlank(object.getFirstName()) ||
             StringUtils.isNotBlank(object.getLastName()) ||
             StringUtils.isNotBlank(object.getPassword()) ||
             StringUtils.isNotBlank(object.getEmail())
         );
-    }
-
-    @Override
-    public Developer findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
