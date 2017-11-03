@@ -27,7 +27,7 @@ public class IndicatorDao extends PatternDao<Indicator>{
             .append("(?,?,?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE INDICATORS ")
+            .append("UPDATE INDICATORS SET ")
             .append("NAME=?, MAX=?, MIN=?, METRICS_INITIALS=?, PROJECTS_ID=?")
             .append("WHERE ID=?");
     

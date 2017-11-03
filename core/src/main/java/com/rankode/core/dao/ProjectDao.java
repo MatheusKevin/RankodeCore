@@ -28,7 +28,7 @@ public class ProjectDao extends PatternDao<Project>{
             .append("(?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE PROJECTS ")
+            .append("UPDATE PROJECTS SET ")
             .append("OWNER_LOGIN=?, PROJECT_NAME=? ")
             .append("WHERE ID=?");
     

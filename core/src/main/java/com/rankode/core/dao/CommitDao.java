@@ -28,7 +28,7 @@ public class CommitDao extends PatternDao<Commit>{
             .append("(?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE COMMITS ")
+            .append("UPDATE COMMITS SET ")
             .append("COLLABORATORS_LOGIN=?, DATE=? ")
             .append("WHERE SHA=?");
     

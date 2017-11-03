@@ -23,8 +23,8 @@ private final StringBuilder insertSQL = new StringBuilder()
             .append("(?,?,?,?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE DEVELOPERS ")
-            .append("SET LOGIN=?, FIRST_NAME=?, LAST_NAME=?, PASSWORD=?, EMAIL=?, PROFILE_PICTURE=? ")
+            .append("UPDATE DEVELOPERS SET ")
+            .append("FIRST_NAME=?, LAST_NAME=?, PASSWORD=?, EMAIL=?, PROFILE_PICTURE=? ")
             .append("WHERE LOGIN=?");
     
     private final StringBuilder deleteSQL = new StringBuilder()
@@ -70,13 +70,13 @@ private final StringBuilder insertSQL = new StringBuilder()
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(updateSQL.toString());
-            ps.setString(cont++, object.getLogin());
             ps.setString(cont++, object.getFirstName());
             ps.setString(cont++, object.getLastName());
             ps.setString(cont++, object.getPassword());
             ps.setString(cont++, object.getEmail());
             ps.setString(cont++, object.getProfilePicture());
             
+            ps.setString(cont++, object.getLogin());
             connection.executeUpdate(ps);
             connection.close();
         } catch (SQLException e) {

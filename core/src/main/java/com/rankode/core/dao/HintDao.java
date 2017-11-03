@@ -22,7 +22,7 @@ public class HintDao extends PatternDao<Hint>{
     private final Connect connection;
 
     private final StringBuilder insertSQL = new StringBuilder()
-            .append("INSERT INTO HINTS ")
+            .append("INSERT INTO HINTS SET ")
             .append("(TEXT, INDICATOR_ID) ")
             .append("VALUES ")
             .append("(?,?)");

@@ -29,7 +29,7 @@ public class CollaboratorDao extends PatternDao<Collaborator>{
             .append("(?,?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE COLLABORATORS ")
+            .append("UPDATE COLLABORATORS SET ")
             .append("XP=?, DEMISSION_DATE=? ")
             .append("WHERE DEVELOPERS_LOGIN=? AND PROJECTS_ID=? AND ADMISSION_DATE=?");
     

@@ -28,7 +28,7 @@ public class TargetDao extends PatternDao<Target>{
             .append("(?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE TARGETS ")
+            .append("UPDATE TARGETS SET ")
             .append("NAME=? ")
             .append("WHERE ID=?");
     

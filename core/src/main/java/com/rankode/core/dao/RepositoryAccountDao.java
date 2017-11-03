@@ -28,7 +28,7 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
             .append("(?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE REPOSITORY_ACCOUNTS ")
+            .append("UPDATE REPOSITORY_ACCOUNTS SET ")
             .append("LOGIN_REPOSITORY=?, REPOSITORY=? ")
             .append("WHERE LOGIN=?");
     

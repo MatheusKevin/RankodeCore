@@ -28,7 +28,7 @@ public class MetricGroupDao extends PatternDao<MetricGroup>{
             .append("(?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE METRIC_GROUPS ")
+            .append("UPDATE METRIC_GROUPS SET ")
             .append("NAME=?, DESCRIPTION=? ")
             .append("WHERE ID=?");
     

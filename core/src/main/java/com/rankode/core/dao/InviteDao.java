@@ -28,7 +28,7 @@ public class InviteDao extends PatternDao<Invite>{
             .append("(?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE INVITES ")
+            .append("UPDATE INVITES SET ")
             .append("PROJECTS_ID=?, RESPONSE=? ")
             .append("WHERE NOTIFICATION_ID=?");
     

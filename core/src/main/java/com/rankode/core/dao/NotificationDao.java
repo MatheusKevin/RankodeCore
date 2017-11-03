@@ -28,7 +28,7 @@ public class NotificationDao extends PatternDao<Notification>{
             .append("(?,?,?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE NOTIFICATIONS ")
+            .append("UPDATE NOTIFICATIONS SET ")
             .append("DEVELOPERS_LOGIN=?, TITLE=?, CONTENT=?, DATE=?, SEEN=? ")
             .append("WHERE ID=?");
     

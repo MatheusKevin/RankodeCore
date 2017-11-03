@@ -28,7 +28,7 @@ public class InfluenceDao extends PatternDao<Influence>{
             .append("(?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE INFLUENCES ")
+            .append("UPDATE INFLUENCES SET ")
             .append("NAME=?, DESCRIPTION=? ")
             .append("WHERE ID=?");
     

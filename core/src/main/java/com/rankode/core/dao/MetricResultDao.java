@@ -28,7 +28,7 @@ public class MetricResultDao extends PatternDao<MetricResult>{
             .append("(?,?,?,?,?)");
     
     private final StringBuilder updateSQL = new StringBuilder()
-            .append("UPDATE METRICS_RESULTS ")
+            .append("UPDATE METRICS_RESULTS SET ")
             .append("VALUE=?, DELTA_VALUE=?, SOURCE=? ")
             .append("WHERE COMMITS_SHA=? AND METRICS_INITIALS=?");
     
