@@ -65,6 +65,9 @@ public class DeveloperBc extends PatternBc<Developer>{
         if(StringUtils.isBlank(object.getLogin())){
             throw new RuntimeException("Login em branco");
         }
+        if(findById(object.getLogin()) != null){
+            throw new RuntimeException("Login já utilizado");
+        }
         if(StringUtils.isBlank(object.getFirstName())){
             throw new RuntimeException("Nome em branco");
         }
