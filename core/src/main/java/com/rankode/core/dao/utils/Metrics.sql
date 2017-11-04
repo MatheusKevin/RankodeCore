@@ -13,6 +13,10 @@ insert into rankode.metric_groups values (null, "Herança",  "Extends e includes
 insert into rankode.metric_groups values (null, "Tamanho", "Quantidade de linhas, classes e métodos");
 insert into rankode.metric_groups values (null, "Acoplamento", "Quantidade de depenências");
 
+insert into rankode.targets values (null, "Pacote");
+insert into rankode.targets values (null, "Classe");
+insert into rankode.targets values (null, "Método");
+
 insert into rankode.influences values (null, "Complexidade", "Quantidade de condições e loops aumentam a complexidade");
 insert into rankode.influences values (null, "Testabilidade", "Melhora a testabilidade do sistema");
 insert into rankode.influences values (null, "Reusabilidade", "Flexibilidade do sistema");
@@ -20,9 +24,6 @@ insert into rankode.influences values (null, "Abstração", "Abstração do sist
 insert into rankode.influences values (null, "Acoplamento", "Quantidade de depenências");
 insert into rankode.influences values (null, "Manutenabilidade", "Fácilmente entendível para manutenção");
 
-insert into rankode.targets values (null, "Pacote");
-insert into rankode.targets values (null, "Classe");
-insert into rankode.targets values (null, "Método");
 
 /*
 ---------------------------------------- Pacotes ---------------------------------------------------------------->8
@@ -33,7 +34,7 @@ insert into rankode.metrics values("CE", 4, 1, "Acoplamento eferente", "Acoplame
 insert into rankode.metrics values("RMI", 4, 1, "Instabilidade", "Instabilidade",null);
 insert into rankode.metrics values("RMA", 4, 1, "Abstração", "Abstração",null);
 insert into rankode.metrics values("RMD", 4, 1, "Distância Normalizada", "Distância Normalizada",null);
-insert into rankode.metrics values("NOC", 3, 1, "Número de filhos", "Número de filhos",null);
+insert into rankode.metrics values("NOC", 3, 1, "Número de classes", "Número de classes",null);
 insert into rankode.metrics values("NOI", 3, 1, "Número de interfaces", "Número de interfaces",null);
 insert into rankode.metrics values("NOP", 3, 1, "Número de pacotes", "Número de pacotes",null);
 insert into rankode.metrics values("TLOC", 3, 1, "Linhas de código", "Linhas de código",null);
@@ -62,3 +63,35 @@ insert into rankode.metrics values("MLOC", 3, 3, "Número de Linhas de código d
 insert into rankode.metrics values("PAR", 3, 3, "Number of Parameters", "Número de atributos",null);
 insert into rankode.metrics values("VG", 1, 3, "Complexidade ciclomática", "Complexidade ciclomática de McCabe",null);
 insert into rankode.metrics values("NBD", 1, 3, "Profundidade de blocos aninhados", "Profundidade de blocos aninhados",null);
+
+/*
+---------------------------------------- influences_has_metrics ---------------------------------------------------------------->8
+*/
+
+insert into rankode.influences_has_metrics values(3, "CA");
+insert into rankode.influences_has_metrics values(5, "CA");
+insert into rankode.influences_has_metrics values(3, "CE");
+insert into rankode.influences_has_metrics values(5, "CE");
+insert into rankode.influences_has_metrics values(1, "NOC");
+insert into rankode.influences_has_metrics values(6, "NOC");
+insert into rankode.influences_has_metrics values(1, "NSC");
+insert into rankode.influences_has_metrics values(6, "NSC");
+insert into rankode.influences_has_metrics values(1, "TLOC");
+insert into rankode.influences_has_metrics values(1, "MLOC");
+insert into rankode.influences_has_metrics values(2, "TLOC");
+insert into rankode.influences_has_metrics values(2, "MLOC");
+insert into rankode.influences_has_metrics values(1, "LCOM");
+insert into rankode.influences_has_metrics values(2, "LCOM");
+insert into rankode.influences_has_metrics values(3, "LCOM");
+insert into rankode.influences_has_metrics values(1, "NOF");
+insert into rankode.influences_has_metrics values(2, "NOM");
+insert into rankode.influences_has_metrics values(3, "NOM");
+insert into rankode.influences_has_metrics values(1, "RFC");
+insert into rankode.influences_has_metrics values(2, "RFC");
+insert into rankode.influences_has_metrics values(1, "DIT");
+insert into rankode.influences_has_metrics values(3, "DIT");
+insert into rankode.influences_has_metrics values(4, "DIT");
+insert into rankode.influences_has_metrics values(1, "WMC");
+insert into rankode.influences_has_metrics values(2, "WMC");
+insert into rankode.influences_has_metrics values(3, "WMC");
+insert into rankode.influences_has_metrics values(1, "VG");
