@@ -24,7 +24,8 @@ public class MetricResult {
     }
 
     public MetricResult() {
-        
+        this.commit = new Commit();
+        this.metric = new Metric();
     }
     
     public Commit getCommit() {

@@ -36,7 +36,7 @@ public class MetricResultRest {
 	}
         
         @POST
-	@Path("/insert") // http://localhost:8080/service/api/metricResult/insert
+	@Path("/insert") // http://localhost:8080/service/api/result/insert
 	@Consumes(MediaType.APPLICATION_JSON)
         @Produces(MediaType.APPLICATION_JSON)
 	public Response insert(MetricResult metricResult) {
@@ -51,7 +51,7 @@ public class MetricResultRest {
 	}
         
         @POST
-	@Path("/update") // http://localhost:8080/service/api/metricResult/update
+	@Path("/update") // http://localhost:8080/service/api/result/update
 	@Consumes(MediaType.APPLICATION_JSON)
         @Produces(MediaType.APPLICATION_JSON)
 	public Response update(MetricResult metricResult) {
@@ -66,7 +66,7 @@ public class MetricResultRest {
 	}
         
         @POST
-	@Path("/delete") // http://localhost:8080/service/api/metricResult/delete
+	@Path("/delete") // http://localhost:8080/service/api/result/delete
 	@Consumes(MediaType.APPLICATION_JSON)
         @Produces(MediaType.APPLICATION_JSON)
 	public Response delete(MetricResult metricResult) {
@@ -81,7 +81,7 @@ public class MetricResultRest {
 	}
         
         @GET
-	@Path("/findById/{sha}/{initials}") // http://localhost:8080/service/api/metricResult/findById
+	@Path("/findById/{sha}/{initials}") // http://localhost:8080/service/api/result/findById
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findById(@PathParam("sha") String sha, @PathParam("initials") String initials) {
 		try{
@@ -98,7 +98,7 @@ public class MetricResultRest {
 	}
         
         @GET
-	@Path("/findAll") // http://localhost:8080/service/api/metricResult/findAll
+	@Path("/findAll") // http://localhost:8080/service/api/result/findAll
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findAll() {
 		try{
@@ -114,8 +114,25 @@ public class MetricResultRest {
 		
 	}
         
+        @GET
+	@Path("/findAllSources") // http://localhost:8080/service/api/result/findAllSources
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response findAllSources() {
+		try{
+                    metricResultBc = new MetricResultBc();
+                    List<MetricResult> metricResults = metricResultBc.findAllSources();
+                    if (metricResults.size() > 0)
+                            return Response.ok(gson.toJson(metricResults)).build();
+
+                    return Response.ok(gson.toJson("Não há resultados cadastrados!")).build();
+		}catch(Exception e){
+                    return Response.status(500).entity(gson.toJson("Erro: " + e.getMessage())).build();
+		}
+		
+	}
+        
         @POST
-	@Path("/findByFilter") // http://localhost:8080/service/api/metricResult/findByFilter
+	@Path("/findByFilter") // http://localhost:8080/service/api/result/findByFilter
 	@Consumes(MediaType.APPLICATION_JSON)
         @Produces(MediaType.APPLICATION_JSON)
 	public Response findByFilter(MetricResult metricResult) {

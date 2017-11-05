@@ -107,7 +107,7 @@ public class MetricRest {
                     if (metrics.size() > 0)
                             return Response.ok(gson.toJson(metrics)).build();
 
-                    return Response.ok(gson.toJson("Não há desenvolvedores cadastrados!")).build();
+                    return Response.ok(gson.toJson("Não há métricas cadastrados!")).build();
 		}catch(Exception e){
                     return Response.status(500).entity(gson.toJson("Erro: " + e.getMessage())).build();
 		}

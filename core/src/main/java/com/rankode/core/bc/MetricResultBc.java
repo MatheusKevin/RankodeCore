@@ -56,6 +56,11 @@ public class MetricResultBc extends PatternBc<MetricResult>{
         return metricResultDao.findByFilter(filter);
     }
 
+    
+    public List<MetricResult> findAllSources() {
+        return metricResultDao.findAllSources();
+    }
+    
     @Override
     protected void validateObject(MetricResult object) {
         if(object == null){

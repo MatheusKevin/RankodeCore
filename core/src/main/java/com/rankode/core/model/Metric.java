@@ -25,6 +25,7 @@ public class Metric {
 
     public Metric() {
         this.influences = new ArrayList<>();
+        this.target = new Target();
     }
 
     public Target getTarget() {

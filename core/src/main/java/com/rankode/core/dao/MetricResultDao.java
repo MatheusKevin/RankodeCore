@@ -45,6 +45,12 @@ public class MetricResultDao extends PatternDao<MetricResult>{
             .append("SELECT * ")
             .append("FROM METRICS_RESULTS ");
     
+    private final StringBuilder selectAllSourcesSQL =  new StringBuilder()
+            .append("SELECT DISTINCT R.SOURCE, M.TARGET_ID, T.NAME ")
+            .append("FROM RANKODE.METRICS_RESULTS R, RANKODE.METRICS M, RANKODE.TARGETS T ")
+            .append("WHERE R.METRICS_INITIALS = M.INITIALS ")
+            .append("AND M.TARGET_ID = T.ID ");
+    
     public MetricResultDao(){
         connection = new Connect();
     }
@@ -232,7 +238,29 @@ public class MetricResultDao extends PatternDao<MetricResult>{
         }
         return list;
     }
+    /*
+     * @return list
+     */
 
+    public List<MetricResult> findAllSources() {
+        List<MetricResult> list = new ArrayList<>();
+        PreparedStatement ps;
+        ResultSet rs;
+        try {
+            ps = connection.getConnection().prepareStatement(selectAllSourcesSQL.toString());
+            rs = connection.executeQuery(ps);
+            while(rs.next()){
+                    list.add(populateObjectSources(rs));
+            }
+
+        } catch (SQLException e) {
+                throw new RuntimeException("Problemas no sistema, por favor tente mais tarde" + e.toString());
+        }finally{
+            connection.close();
+        }
+        return list;
+    }
+    
     @Override
     public MetricResult populateObject(ResultSet rs) throws SQLException {
         MetricResult obj = new MetricResult();
@@ -240,6 +268,14 @@ public class MetricResultDao extends PatternDao<MetricResult>{
         obj.setDeltaValue(rs.getInt("DELTA_VALUE"));
         obj.setSource(rs.getString("SOURCE"));
         
+        return obj;
+    }
+    
+    public MetricResult populateObjectSources(ResultSet rs) throws SQLException {
+        MetricResult obj = new MetricResult();
+        obj.setSource(rs.getString("SOURCE"));
+        obj.getMetric().getTarget().setId(rs.getInt("TARGET_ID"));
+        obj.getMetric().getTarget().setName(rs.getString("NAME"));
         return obj;
     }
     
