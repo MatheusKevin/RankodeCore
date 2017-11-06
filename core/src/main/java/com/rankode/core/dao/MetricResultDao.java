@@ -264,6 +264,8 @@ public class MetricResultDao extends PatternDao<MetricResult>{
     @Override
     public MetricResult populateObject(ResultSet rs) throws SQLException {
         MetricResult obj = new MetricResult();
+        obj.getCommit().setSha(rs.getString("COMMITS_SHA"));
+        obj.getMetric().setInitials(rs.getString("METRICS_INITIALS"));
         obj.setValue(rs.getInt("VALUE"));
         obj.setDeltaValue(rs.getInt("DELTA_VALUE"));
         obj.setSource(rs.getString("SOURCE"));
