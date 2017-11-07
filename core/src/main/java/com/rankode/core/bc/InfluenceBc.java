@@ -71,8 +71,8 @@ public class InfluenceBc extends PatternBc<Influence>{
 
     @Override
     protected boolean validateFilter(Influence object) {
-        return object != null && (StringUtils.isBlank(object.getName()) ||
-                StringUtils.isBlank(object.getDescription()));
+        return object != null && (StringUtils.isNotBlank(object.getName()) ||
+                StringUtils.isNotBlank(object.getDescription()));
     }
     
 }

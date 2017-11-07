@@ -68,7 +68,7 @@ public class TargetBc extends PatternBc<Target>{
 
     @Override
     protected boolean validateFilter(Target object) {
-        return object != null && StringUtils.isBlank(object.getName());
+        return object != null && StringUtils.isNotBlank(object.getName());
     }
     
 }

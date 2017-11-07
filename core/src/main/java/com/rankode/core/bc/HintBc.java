@@ -74,9 +74,9 @@ public class HintBc extends PatternBc<Hint>{
 
     @Override
     protected boolean validateFilter(Hint object) {
-        return object != null && (StringUtils.isBlank(object.getText()) ||
-                object.getIndicator() == null ||
-                object.getIndicator().getId() == null);
+        return object != null && (StringUtils.isNotBlank(object.getText()) ||
+                object.getIndicator() != null ||
+                object.getIndicator().getId() != null);
     }
     
 }

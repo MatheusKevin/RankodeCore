@@ -88,13 +88,13 @@ public class MetricResultBc extends PatternBc<MetricResult>{
 
     @Override
     protected boolean validateFilter(MetricResult object) {
-        return object != null && (object.getCommit() == null ||
-                StringUtils.isBlank(object.getCommit().getSha()) ||
-                object.getMetric() == null ||
-                StringUtils.isBlank(object.getMetric().getInitials()) ||
-                object.getValue() == null ||
-                object.getDeltaValue() == null ||
-                StringUtils.isBlank(object.getSource()));
+        return object != null && (object.getCommit() != null ||
+                StringUtils.isNotBlank(object.getCommit().getSha()) ||
+                object.getMetric() != null ||
+                StringUtils.isNotBlank(object.getMetric().getInitials()) ||
+                object.getValue() != null ||
+                object.getDeltaValue() != null ||
+                StringUtils.isNotBlank(object.getSource()));
     }
     
 }

@@ -77,9 +77,9 @@ public class CommitBc extends PatternBc<Commit>{
 
     @Override
     protected boolean validateFilter(Commit object) {
-        return object != null && (object.getCollaborator() == null ||
-                StringUtils.isBlank(object.getCollaborator().getDeveloper().getLogin()) ||
-                object.getDate() == null);
+        return object != null && (object.getCollaborator() != null ||
+                StringUtils.isNotBlank(object.getCollaborator().getDeveloper().getLogin()) ||
+                object.getDate() != null);
     }
     
 }

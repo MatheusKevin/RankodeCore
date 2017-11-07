@@ -192,10 +192,12 @@ public class ProjectDao extends PatternDao<Project>{
 
     @Override
     public Project populateObject(ResultSet rs) throws SQLException {
+        DeveloperDao developerDao = new DeveloperDao();
+        
         Project obj = new Project();
         obj.setId(rs.getInt("ID"));
         obj.setName(rs.getString("PROJECT_NAME"));
-        
+        obj.setOwner(developerDao.findById(rs.getString("OWNER_LOGIN")));
         return obj;
     }
     

@@ -80,11 +80,11 @@ public class NotificationBc extends PatternBc<Notification>{
 
     @Override
     protected boolean validateFilter(Notification object) {
-        return object != null && (object.getDeveloper() == null ||
-                StringUtils.isBlank(object.getDeveloper().getLogin()) ||
-                StringUtils.isBlank(object.getTitle()) ||
-                StringUtils.isBlank(object.getContent()) ||
-                object.getDate() == null);
+        return object != null && (object.getDeveloper() != null ||
+                StringUtils.isNotBlank(object.getDeveloper().getLogin()) ||
+                StringUtils.isNotBlank(object.getTitle()) ||
+                StringUtils.isNotBlank(object.getContent()) ||
+                object.getDate() != null);
     }
     
 }

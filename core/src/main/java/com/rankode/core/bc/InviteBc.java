@@ -70,8 +70,8 @@ public class InviteBc extends PatternBc<Invite>{
 
     @Override
     protected boolean validateFilter(Invite object) {
-        return object != null && (object.getProject() == null ||
-                object.getProject().getId() == null);
+        return object != null && (object.getProject() != null ||
+                object.getProject().getId() != null);
     }
     
 }

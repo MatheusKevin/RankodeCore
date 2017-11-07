@@ -24,6 +24,9 @@ public class ProjectBc extends PatternBc<Project>{
 
     @Override
     public void insert(Project objeto) {
+        if(findByFilter(objeto).size()>0){
+            throw new RuntimeException("Esse projeto já está cadastrado");
+        }
         validateObject(objeto);
         projectDao.insert(objeto);
     }
@@ -74,9 +77,9 @@ public class ProjectBc extends PatternBc<Project>{
 
     @Override
     protected boolean validateFilter(Project object) {
-        return object != null && (object.getOwner() == null ||
-                StringUtils.isBlank(object.getOwner().getLogin()) ||
-                StringUtils.isBlank(object.getName()));
+        return object != null && (object.getOwner() != null ||
+                StringUtils.isNotBlank(object.getOwner().getLogin()) ||
+                StringUtils.isNotBlank(object.getName()));
     }
     
 }

@@ -77,12 +77,12 @@ public class MetricBc extends PatternBc<Metric>{
 
     @Override
     protected boolean validateFilter(Metric object) {
-        return object != null && (object.getGroup() == null ||
-                object.getGroup().getId() == null||
-                object.getTarget()== null ||
-                object.getTarget().getId() == null||
-                StringUtils.isBlank(object.getName()) ||
-                StringUtils.isBlank(object.getDescription()));
+        return object != null && (object.getGroup() != null ||
+                object.getGroup().getId() != null||
+                object.getTarget()!= null ||
+                object.getTarget().getId() != null||
+                StringUtils.isNotBlank(object.getName()) ||
+                StringUtils.isNotBlank(object.getDescription()));
     }
     
 }

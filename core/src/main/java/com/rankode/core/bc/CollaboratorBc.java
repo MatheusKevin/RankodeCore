@@ -85,13 +85,13 @@ public class CollaboratorBc extends PatternBc<Collaborator>{
 
     @Override
     protected boolean validateFilter(Collaborator object) {
-        return object != null && (object.getDeveloper() == null ||
-                StringUtils.isBlank(object.getDeveloper().getLogin()) ||
-                object.getProject() == null ||
-                object.getProject().getId() == null ||
-                object.getXp() == null||
-                object.getAdmissionDate() == null||
-                object.getDemissionDate() == null);
+        return object != null && (object.getDeveloper() != null ||
+                StringUtils.isNotBlank(object.getDeveloper().getLogin()) ||
+                object.getProject() != null ||
+                object.getProject().getId() != null ||
+                object.getXp() != null||
+                object.getAdmissionDate() != null||
+                object.getDemissionDate() != null);
     }
     
 }

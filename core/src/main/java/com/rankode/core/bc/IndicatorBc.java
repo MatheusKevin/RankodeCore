@@ -89,13 +89,13 @@ public class IndicatorBc extends PatternBc<Indicator>{
 
     @Override
     protected boolean validateFilter(Indicator object) {
-        return object != null && (StringUtils.isBlank(object.getName()) ||
-                object.getMax() == null ||
-                object.getMin() == null ||
-                object.getMetric()== null ||
-                object.getMetric().getInitials() == null ||
-                object.getProject()== null ||
-                object.getProject().getId() == null);
+        return object != null && (StringUtils.isNotBlank(object.getName()) ||
+                object.getMax() != null ||
+                object.getMin() != null ||
+                object.getMetric()!= null ||
+                object.getMetric().getInitials() != null ||
+                object.getProject()!= null ||
+                object.getProject().getId() != null);
     }
     
 }

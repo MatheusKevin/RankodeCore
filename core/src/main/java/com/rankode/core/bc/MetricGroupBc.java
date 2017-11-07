@@ -71,8 +71,8 @@ public class MetricGroupBc extends PatternBc<MetricGroup>{
 
     @Override
     protected boolean validateFilter(MetricGroup object) {
-        return object != null && (StringUtils.isBlank(object.getName()) ||
-                StringUtils.isBlank(object.getDescription()));
+        return object != null && (StringUtils.isNotBlank(object.getName()) ||
+                StringUtils.isNotBlank(object.getDescription()));
     }
     
 }

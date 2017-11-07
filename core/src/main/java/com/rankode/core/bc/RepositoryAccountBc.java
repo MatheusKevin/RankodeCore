@@ -72,9 +72,9 @@ public class RepositoryAccountBc extends PatternBc<RepositoryAccount>{
 
     @Override
     protected boolean validateFilter(RepositoryAccount object) {
-        return object != null && (StringUtils.isBlank(object.getRepository()) ||
-                object.getDeveloper() == null ||
-                StringUtils.isBlank(object.getDeveloper().getLogin()));
+        return object != null && (StringUtils.isNotBlank(object.getRepository()) ||
+                object.getDeveloper() != null ||
+                StringUtils.isNotBlank(object.getDeveloper().getLogin()));
     }
     
 }
