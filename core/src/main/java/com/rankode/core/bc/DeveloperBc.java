@@ -59,6 +59,21 @@ public class DeveloperBc extends PatternBc<Developer>{
         }
         return developerDao.findByFilter(filter);
     }
+    
+    public Developer login(Developer objeto) {
+        if(objeto.getLogin() == null || objeto.getPassword() == null){
+            throw new RuntimeException("Desenvolvedor inválido");
+        }
+        Developer developer = developerDao.findById(objeto.getLogin());
+        if(developer == null){
+            throw new RuntimeException("Desenvolvedor ou senha inválido");
+        }else if(objeto.getPassword().equals(developer.getPassword())){
+            developer.setPassword(null);
+            return developer;
+        }else{
+            throw new RuntimeException("Desenvolvedor ou senha inválido");
+        }
+    }
 
     @Override
     protected void validateObject(Developer object) {
@@ -84,6 +99,7 @@ public class DeveloperBc extends PatternBc<Developer>{
             throw new RuntimeException("Email inválido");
         }
     }
+    
 
     @Override
     protected boolean validateFilter(Developer object) {

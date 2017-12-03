@@ -137,4 +137,23 @@ public class DeveloperRest {
 		}
 		
 	}
+        
+        
+        @POST
+	@Path("/login") // http://localhost:8080/service/api/developer/findByFilter
+	@Consumes(MediaType.APPLICATION_JSON)
+        @Produces(MediaType.APPLICATION_JSON)
+	public Response login(Developer developer) {
+		try{
+                    developerBc = new DeveloperBc();
+                    Developer developerLogin = developerBc.login(developer);
+                    if(developerLogin != null)
+                        return Response.ok(gson.toJson(developerBc.login(developer))).build();
+                    
+                    return Response.ok(gson.toJson("Não foi encontrado desenvolvedores")).build();
+		}catch(Exception e){
+			return Response.status(500).entity(gson.toJson("Erro: " + e.getMessage())).build();
+		}
+		
+	}
 }

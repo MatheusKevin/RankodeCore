@@ -55,9 +55,9 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(insertSQL.toString());
-            ps.setString(cont++, object.getDeveloper().getLogin());
-            ps.setString(cont++, object.getRepository());
             ps.setString(cont++, object.getLoginRepository());
+            ps.setString(cont++, object.getRepository());
+            ps.setString(cont++, object.getDeveloper().getLogin());
             
             connection.executeUpdate(ps);
         } catch (SQLException e) {
