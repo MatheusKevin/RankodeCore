@@ -25,6 +25,9 @@ public class RepositoryAccountBc extends PatternBc<RepositoryAccount>{
     @Override
     public void insert(RepositoryAccount objeto) {
         validateObject(objeto);
+        if(findById(objeto.getLoginRepository()) != null){
+            throw new RuntimeException("Repositório já utilizado");
+        }
         repositoryAccountDao.insert(objeto);
     }
 
@@ -60,7 +63,7 @@ public class RepositoryAccountBc extends PatternBc<RepositoryAccount>{
     protected void validateObject(RepositoryAccount object) {
         if(object == null)
             throw new RuntimeException("Repositório Nulo");
-        if(StringUtils.isBlank(object.getLoginRepository()))
+        if(StringUtils.isBlank(object.getLoginRepository()) || "undefined".equals(object.getLoginRepository()))
             throw new RuntimeException("Login do Repositório em branco");
         if(StringUtils.isBlank(object.getRepository()))
             throw new RuntimeException("Repositório em branco");
