@@ -29,17 +29,17 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
     
     private final StringBuilder updateSQL = new StringBuilder()
             .append("UPDATE REPOSITORY_ACCOUNTS SET ")
-            .append("LOGIN_REPOSITORY=?, REPOSITORY=? ")
-            .append("WHERE LOGIN=?");
+            .append("REPOSITORY=?, DEVELOPERS_LOGIN=? ")
+            .append("WHERE LOGIN_REPOSITORY=?");
     
     private final StringBuilder deleteSQL = new StringBuilder()
             .append("DELETE FROM REPOSITORY_ACCOUNTS ")
-            .append("WHERE LOGIN=?");
+            .append("WHERE LOGIN_REPOSITORY=?");
     
     private final StringBuilder selectIdSQL =  new StringBuilder()
             .append("SELECT * ")
             .append("FROM REPOSITORY_ACCOUNTS ")
-            .append("WHERE LOGIN = ? ");
+            .append("WHERE LOGIN_REPOSITORY = ? ");
 	
     private final StringBuilder selectAllSQL =  new StringBuilder()
             .append("SELECT * ")
@@ -62,6 +62,8 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
             connection.executeUpdate(ps);
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
+        }finally{
+            connection.close();
         }
     }
 
@@ -72,12 +74,14 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
         try {
             ps = connection.getConnection().prepareStatement(updateSQL.toString());
             ps.setString(cont++, object.getRepository());
+            ps.setString(cont++, object.getDeveloper().getLogin());           
             ps.setString(cont++, object.getLoginRepository());
-            
-            ps.setString(cont++, object.getDeveloper().getLogin());
+                       
             connection.executeUpdate(ps);
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
+        }finally{
+            connection.close();
         }
     }
 
@@ -87,11 +91,13 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
         PreparedStatement ps;
         try {
             ps = connection.getConnection().prepareStatement(deleteSQL.toString());
-            ps.setString(cont++, object.getDeveloper().getLogin());
+            ps.setString(cont++, object.getLoginRepository());
 
             connection.executeUpdate(ps);
         } catch (SQLException e) {
                 throw new RuntimeException("Problemas no sistema, por favor tente mais tarde "+ e.toString());
+        }finally{
+            connection.close();
         }
     }
 
@@ -128,7 +134,7 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
             }
             sb.append(" REPOSITORY = ? ");
         }
-        if(filter.getLoginRepository()!= null){
+        if(filter.getDeveloper().getLogin()!= null){
             if(!and){
                     and = true;
             }else{
@@ -144,8 +150,8 @@ public class RepositoryAccountDao extends PatternDao<RepositoryAccount>{
         int cont = 1;
         if(filter.getRepository() != null)
             ps.setString(cont++, filter.getRepository());
-        if(filter.getLoginRepository()!= null)
-            ps.setString(cont++, filter.getLoginRepository());
+        if(filter.getDeveloper().getLogin()!= null)
+            ps.setString(cont++, filter.getDeveloper().getLogin());
         
         return ps;
     }
