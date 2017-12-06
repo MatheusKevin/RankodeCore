@@ -32,6 +32,8 @@ public class Collaborator {
 
     public Collaborator() {
         this.commits = new ArrayList<>();
+        this.developer = new Developer();
+        this.project = new Project();
     }
 
     public void addCommit(Commit obj){
